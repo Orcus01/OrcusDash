@@ -1,0 +1,48 @@
+name: Bug report
+description: Report a reproducible gameplay, connection, or interface problem.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: Please omit passwords, tokens, private room links, and personal information from logs or screenshots.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the problem and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open the game
+        2. Create or join a room
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Device, operating system, and browser version
+      placeholder: e.g. Pixel 8, Android 15, Chrome 130
+    validations:
+      required: true
+  - type: input
+    id: build
+    attributes:
+      label: Build or URL
+      description: Hosted game URL or local commit SHA. Remove private invite codes.
+    validations:
+      required: true
+  - type: textarea
+    id: match
+    attributes:
+      label: Match details
+      description: Include arena, mode, graphics preset, player/bot count, and whether this was local or online play.
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots or logs
+      description: Optional evidence with secrets and personal details removed.
