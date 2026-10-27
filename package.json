@@ -1,0 +1,34 @@
+{
+  "name": "kart-clash",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "shared",
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,client -c magenta,cyan \"npm run dev -w server\" \"npm run dev -w client\"",
+    "build": "npm run build -w client",
+    "start": "npm run start -w server",
+    "test": "vitest run",
+    "typecheck": "tsc -p server && tsc -p client",
+    "e2e": "node scripts/e2e.mjs",
+    "e2e:combat": "node scripts/bots.mjs",
+    "bot": "tsx scripts/ws-bot.mjs",
+    "e2e:mobile": "node scripts/mobile-check.mjs",
+    "e2e:design": "node scripts/design-check.mjs",
+    "e2e:network": "node scripts/reconnect-check.mjs",
+    "test:collisions": "node scripts/collision-check.mjs",
+    "verify": "npm run typecheck && npm test && npm run build",
+    "e2e:resources": "node scripts/resource-check.mjs",
+    "e2e:fun": "node scripts/fun-check.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0",
+    "playwright-core": "^1.64.0",
+    "sharp": "^0.35.5",
+    "typescript": "^5.6.0",
+    "vitest": "^3.0.0"
+  }
+}

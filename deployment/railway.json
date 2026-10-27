@@ -1,0 +1,11 @@
+{
+  "projectId": "86c5e6fb-bf0b-4c90-b75a-0e7321c33625",
+  "environmentId": "9172598e-4756-4748-bf84-74eca1635467",
+  "serviceId": "999083fd-10d4-4b00-a1f4-e44735048992",
+  "stagedPatchId": "9e8db237-6418-4881-83b8-e86f74d3eb79",
+  "status": "online",
+  "deploymentId": "9b2ebde9-4026-44b6-8071-7f119c8f4b1c",
+  "httpUrl": "https://orcusdash-multiplayer-production.up.railway.app",
+  "websocketUrl": "wss://orcusdash-multiplayer-production.up.railway.app/ws",
+  "siteUrl": "https://orcusdash.orcus-pro01.chatgpt.site"
+}

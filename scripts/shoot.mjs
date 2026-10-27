@@ -1,0 +1,45 @@
+// Visual check: create a solo room on a map, start, drive a bit, screenshot + FPS. Usage:
+//   node scripts/shoot.mjs <outDir> <mapId> [quality] [gpu|swiftshader]
+import { chromium } from 'playwright-core';
+import { mkdirSync } from 'node:fs';
+const [, , OUT = 'screenshots', MAP = 'town', QUALITY = 'high', MODE = 'gpu'] = process.argv;
+const BASE = process.env.BASE_URL ?? 'http://localhost:5173';
+mkdirSync(OUT, { recursive: true });
+const args = MODE === 'gpu' ? ['--use-angle=metal', '--ignore-gpu-blocklist', '--enable-gpu'] : ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'];
+const browser = await chromium.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true, args });
+const page = await (await browser.newContext({ viewport: { width: 1280, height: 720 } })).newPage();
+const errors = [];
+page.on('pageerror', (e) => errors.push(e.message));
+page.on('console', (m) => (m.type() === 'error' || m.type() === 'warning') && errors.push(`${m.type()}: ${m.text()}`));
+await page.addInitScript((q) => localStorage.setItem('kc-quality2', q), QUALITY);
+await page.goto(BASE, { waitUntil: 'domcontentloaded' });
+await page.waitForSelector('#loading.done', { timeout: 120000 });
+await page.waitForTimeout(1500);
+await page.screenshot({ path: `${OUT}/${MAP}-menu.png` });
+await page.fill('input.text:not(.code)', 'Tester');
+await page.click('text=Create room');
+await page.waitForSelector('.map-card');
+const idx = await page.evaluate((id) => [...document.querySelectorAll('.map-card .name')].findIndex((n) => n.textContent && window.kart && true) , MAP);
+await page.evaluate((id) => {
+  const names = { neon: 'Downtown', canyon: 'Desert Canyon', docks: 'Harbor Docks', jungle: 'Jungle Temple', lavapit: 'Lava Pit', space: 'Space Station' };
+  [...document.querySelectorAll('.map-card')].find((c) => c.textContent.includes(names[id]))?.click();
+}, MAP);
+await page.waitForFunction((id) => window.kart.game.loadedMapId === id, MAP, { timeout: 120000 });
+await page.waitForFunction(() => !document.querySelector('.lobby-actions button.go').disabled, null, { timeout: 30000 });
+await page.waitForTimeout(800);
+await page.screenshot({ path: `${OUT}/${MAP}-lobby.png` });
+await page.click('.lobby-actions button.go');
+await page.waitForFunction(() => window.kart.game.phase === 'playing', null, { timeout: 15000 });
+await page.keyboard.down('KeyW');
+await page.waitForTimeout(1800);
+await page.screenshot({ path: `${OUT}/${MAP}-drive1.png` });
+await page.keyboard.down('KeyD');
+await page.waitForTimeout(700);
+await page.keyboard.up('KeyD');
+await page.waitForTimeout(1200);
+await page.screenshot({ path: `${OUT}/${MAP}-drive2.png` });
+await page.keyboard.up('KeyW');
+const stats = await page.evaluate(() => ({ fps: Math.round(window.kart.game.fps), calls: window.kart.game.renderer.info.render.calls, tris: window.kart.game.renderer.info.render.triangles }));
+console.log(MAP, QUALITY, JSON.stringify(stats));
+console.log(errors.length ? errors.slice(0, 15).join('\n') : 'no errors');
+await browser.close();

@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.DS_Store
+screenshots/
+.env
+.env.*
+!.env.example
+*.log
+coverage/
+playwright-report/
+test-results/
+# Managed hosting checkout has its own Git history and credentials.
+/sites/

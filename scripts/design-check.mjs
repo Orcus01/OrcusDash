@@ -1,0 +1,31 @@
+import {chromium} from 'playwright-core';
+const browser=await chromium.launch({executablePath:process.env.CHROME_PATH??'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true,args:['--use-angle=metal','--ignore-gpu-blocklist','--enable-gpu']});
+try {
+ const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];
+ page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
+ await page.goto('http://localhost:5173');await page.waitForSelector('#loading.done',{timeout:120000});await page.waitForTimeout(500);
+ await page.getByRole('button',{name:'Kart color 2',exact:true}).click();
+ const paint=await page.evaluate(()=>({choice:window.kart.ui.color,paint:window.kart.ui.garage.kart.paint.color.getHexString()}));
+ if(paint.choice!==1||paint.paint!=='2f7cf6')throw Error('Garage paint did not match selection');
+ await page.screenshot({path:'screenshots/design-home-desktop.png'});
+ await page.click('.quick-play');await page.waitForFunction(()=>window.kart.game.phase==='playing');
+ const id=await page.evaluate(()=>window.kart.game.myId);await page.evaluate(()=>window.kart.conn.ws.close());
+ await page.waitForSelector('.reconnect-overlay:not(.hidden)');await page.waitForSelector('.reconnect-overlay',{state:'hidden',timeout:12000});
+ if(await page.evaluate(()=>window.kart.game.myId)!==id)throw Error('Reconnect changed identity');
+ await page.waitForTimeout(2200);await page.screenshot({path:'screenshots/design-courtyard-desktop.png'});
+ await page.click('[title="Settings"]');await page.click('text=Close chase');await page.click('text=Camera shake: ON');
+ await page.evaluate(()=>window.kart.ui.onLeave());await page.reload();await page.waitForSelector('#loading.done',{timeout:120000});
+ const prefs=await page.evaluate(()=>({view:window.kart.game.cameraView,shake:window.kart.game.shakeEnabled}));
+ if(prefs.view!=='chase'||prefs.shake)throw Error('Preferences did not persist');
+ const mobileContext=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:2});const phone=await mobileContext.newPage();
+ phone.on('pageerror',e=>errors.push(e.message));phone.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
+ await phone.goto('http://localhost:5173');await phone.waitForSelector('#loading.done',{timeout:120000});await phone.waitForTimeout(500);
+ const play=await phone.locator('.quick-play').boundingBox();if(play.y+play.height>844)throw Error('Phone Play requires scrolling');
+ await phone.screenshot({path:'screenshots/design-home-phone.png'});
+ await phone.click('.quick-play');await phone.waitForFunction(()=>window.kart.game.phase==='playing');await phone.waitForTimeout(2500);
+ await phone.screenshot({path:'screenshots/design-courtyard-phone.png'});
+ await phone.evaluate(()=>window.dispatchEvent(new Event('blur')));if(!await phone.locator('.pause-overlay').isVisible())throw Error('Focus loss did not pause');
+ await phone.click('text=Resume game');await phone.evaluate(()=>window.kart.ui.onLeave());
+ if(errors.length)throw Error(errors.join('\n'));
+ console.log('Design checks passed: real garage repaint, mobile Play above fold, automatic same-identity reconnect, persisted camera/shake, interruption pause, and clean browser logs.');
+}finally{await browser.close()}
