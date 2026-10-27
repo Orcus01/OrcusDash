@@ -6,7 +6,7 @@
 - Multiplayer server: https://orcusdash-multiplayer-production.up.railway.app
 - WebSocket endpoint: wss://orcusdash-multiplayer-production.up.railway.app/ws
 
-The game is hosted with Sites and the multiplayer backend with Railway. The Sites audience is currently restricted; the public GitHub repository does not change that setting. The multiplayer endpoint is public so the hosted browser client can connect.
+The game is hosted with Sites and the multiplayer backend with Railway. The Sites audience is public, so anyone with the game URL can visit. The multiplayer endpoint is public so the hosted browser client can connect.
 
 ## Deploy your own copy
 

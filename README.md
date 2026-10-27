@@ -4,6 +4,8 @@
 
 **Grab a weapon. Cause chaos. Take the crown.**
 
+[![Verify](https://github.com/Orcus01/OrcusDash/actions/workflows/verify.yml/badge.svg)](https://github.com/Orcus01/OrcusDash/actions/workflows/verify.yml)
+
 A browser-based 3D kart battle game with online multiplayer, eight arenas, bots, and keyboard + touch controls.
 
 [**Play OrcusDash**](https://orcusdash.orcus-pro01.chatgpt.site) · [Setup](#run-locally) · [Controls](#controls) · [Deployment](#deploy) · [Contributing](CONTRIBUTING.md)
@@ -12,7 +14,7 @@ A browser-based 3D kart battle game with online multiplayer, eight arenas, bots,
 
 </div>
 
-> **Live demo access:** The hosted game currently has restricted access and may require the owner's ChatGPT account. The source code in this repository is public; you can run your own copy using the instructions below.
+> **Play online:** The [hosted game](https://orcusdash.orcus-pro01.chatgpt.site) is public. No owner-only invitation is required. You can also run your own copy using the instructions below.
 >
 > **Status:** Advanced playable prototype. Real-device mobile performance, thermal testing, and broader player testing remain release work. See [implementation notes](implementation.md).
 
@@ -86,7 +88,7 @@ The client simulates its own kart for responsive handling and sends movement upd
 npm run verify
 ```
 
-This runs TypeScript checks, unit tests, and the production client build. GitHub Actions runs the same verification on pushes and pull requests.
+This runs TypeScript checks, 80 unit tests, and the production client build. GitHub Actions runs the same verification on pushes and pull requests.
 
 With `npm run dev` running in another terminal:
 
