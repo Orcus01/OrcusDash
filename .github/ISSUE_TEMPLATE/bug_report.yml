@@ -16,9 +16,10 @@ body:
     id: steps
     attributes:
       label: Steps to reproduce
-      placeholder: "1. Open the game
-2. Create or join a room
-3. ..."
+      placeholder: |
+        1. Open the game
+        2. Create or join a room
+        3. ...
     validations:
       required: true
   - type: input
