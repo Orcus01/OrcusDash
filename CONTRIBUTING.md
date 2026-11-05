@@ -19,3 +19,5 @@ Include a concise explanation and relevant validation in your pull request. Real
 Use the [bug-report form](https://github.com/Orcus01/OrcusDash/issues/new?template=bug_report.yml) for reproducible problems and the [feature-request form](https://github.com/Orcus01/OrcusDash/issues/new?template=feature_request.yml) for proposals. The bug form asks for reproduction steps, device/browser details, and the affected build so another contributor can investigate.
 
 Pull requests include a template for the change, related issue, validation, and visual evidence where relevant. Documentation-only changes can be checked through link and formatting review; gameplay or build changes still require the appropriate checks above.
+
+Maintainers should use the [maintenance and release checklist](docs/MAINTENANCE.md). For physical-device testing, use the [playtest record](docs/PLAYTEST.md) and attach only results actually observed, with tester consent for any public attribution.
