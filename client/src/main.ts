@@ -32,6 +32,7 @@ async function boot() {
   firstMap.finally(() => {
     clearInterval(progress);
     loadingEl.classList.add('done');
+    loadingEl.setAttribute('aria-hidden', 'true');
   });
 
   const frame = () => {
