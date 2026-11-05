@@ -145,4 +145,4 @@ Before treating a build as a broad production release, complete real Android/iPh
 
 Terrain textures are from [Poly Haven](https://polyhaven.com) under **CC0**; see [texture attribution](client/public/tex/LICENSE.md). Dependency licenses remain with their respective authors.
 
-No open-source license has been granted for the project's original code and artwork. Public repository visibility alone does not grant reuse rights.
+The project's original source code is available under the [MIT License](LICENSE). Original artwork is not included in this code license unless separately marked; the Poly Haven textures retain their CC0 terms above.
