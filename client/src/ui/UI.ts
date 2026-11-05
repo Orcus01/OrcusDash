@@ -170,9 +170,9 @@ export class UI {
   // ------------------------------------------------------------------ menu
 
   private buildMenu() {
-    this.nameInput = h('input', { class: 'text', maxlength: MAX_NAME_LENGTH, placeholder: 'Racer', autocomplete: 'off', spellcheck: 'false' });
+    this.nameInput = h('input', { class: 'text', 'aria-label': 'Player name', maxlength: MAX_NAME_LENGTH, placeholder: 'Racer', autocomplete: 'off', spellcheck: 'false' });
     this.nameInput.value = loadPref('kc-name', '');
-    this.codeInput = h('input', { class: 'text code grow', maxlength: 7, placeholder: 'CODE', autocomplete: 'off', spellcheck: 'false', autocapitalize: 'characters' });
+    this.codeInput = h('input', { class: 'text code grow', 'aria-label': 'Room code', maxlength: 7, placeholder: 'CODE', autocomplete: 'off', spellcheck: 'false', autocapitalize: 'characters' });
     this.codeInput.addEventListener('input', () => {
       this.codeInput.value = this.codeInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
     });
